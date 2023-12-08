@@ -5,18 +5,21 @@ package jptv22store;
 import managers.ProductManager;
 import managers.CustomerManager;
 import java.util.Scanner;
+import managers.PurchaseManager;
 import tools.InputFromKeyboard;
 
 public class App {
     private final Scanner scanner;
     private final ProductManager productManager;
     private final CustomerManager customerManager;
+    private final PurchaseManager purchaseManager;
     
     
     public App() {
         this.scanner = new Scanner(System.in);
         this.productManager = new ProductManager(scanner);
         this.customerManager = new CustomerManager(scanner);
+        this.purchaseManager = new PurchaseManager(scanner);
         
     }
     
@@ -74,6 +77,14 @@ public class App {
                 case 7:
                     break;
                 case 8:
+                    break;
+                case 9:
+                    purchaseManager.purchaseProduct();
+                    break;
+                case 10:
+                    purchaseManager.displayAllPurchases();
+                    break;
+                case 11:
                     break;
                 default:
                     break;

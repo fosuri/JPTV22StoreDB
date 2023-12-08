@@ -7,6 +7,7 @@ import facade.PurchaseFacade;
 import java.util.Scanner;
 import tools.InputFromKeyboard;
 import java.time.LocalDate;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class PurchaseManager {
@@ -38,6 +39,7 @@ public class PurchaseManager {
         productManager.displayAllProducts();
         int productId = InputFromKeyboard.inputNumberFromRange(1, null);
         Product product = productManager.getById(productId);
+        purchase.setProduct(productManager.getById(productId));
         if(product.getProductQuantity()>0){
             int quantityToPurchase;
             while (true) {
@@ -59,11 +61,14 @@ public class PurchaseManager {
                             product.setProductRating(product.getProductRating()+quantityToPurchase);
                             customerManager.update(customer);
                             productManager.update(product);
-                            purchase.setDateOfPurchase(LocalDate.now());
+                            purchase.setDateOfPurchase(new GregorianCalendar().getTime());
                             purchase.setPurchasedPrice(roundedTotalPrice);
                             purchase.setPurchasedQuantity(quantityToPurchase);
                             purchaseFacade.create(purchase);
+                        }else{
+                            System.out.println("Not enough money to buy!");
                         }
+                        break;
                     }
                 }
             }

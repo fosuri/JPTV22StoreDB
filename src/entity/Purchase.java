@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,14 +22,14 @@ public class Purchase implements Serializable {
     @OneToOne
     private Product product;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private LocalDate dateOfPurchase;
+    private Date dateOfPurchase;
     
     
 
     public Purchase() {
     }
 
-    public Purchase(int purchasedQuantity, double purchasedPrice, Customer customer, Product product, LocalDate dateOfPurchase) {
+    public Purchase(int purchasedQuantity, double purchasedPrice, Customer customer, Product product, Date dateOfPurchase) {
         this.purchasedQuantity = purchasedQuantity;
         this.purchasedPrice = purchasedPrice;
         this.customer = customer;
@@ -68,11 +69,11 @@ public class Purchase implements Serializable {
         this.product = product;
     }
 
-    public LocalDate getDateOfPurchase() {
+    public Date getDateOfPurchase() {
         return dateOfPurchase;
     }
 
-    public void setDateOfPurchase(LocalDate dateOfPurchase) {
+    public void setDateOfPurchase(Date dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
     }
 

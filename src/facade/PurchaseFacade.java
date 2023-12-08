@@ -23,7 +23,7 @@ public class PurchaseFacade extends AbstractFacade<Purchase>{
 
     public PurchaseFacade() {
         super(Purchase.class);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV22LibraryPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV22StorePU");
         this.em = emf.createEntityManager();
     }
     
