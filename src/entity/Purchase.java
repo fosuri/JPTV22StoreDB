@@ -21,7 +21,7 @@ public class Purchase implements Serializable {
     private Customer customer;
     @OneToOne
     private Product product;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOfPurchase;
     
     

@@ -117,5 +117,6 @@ public class Product implements Serializable {
         this.productRating = productRating;
     }
 
+
     
 }

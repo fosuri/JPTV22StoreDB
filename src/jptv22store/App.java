@@ -95,9 +95,16 @@ public class App {
                     purchaseManager.displayTotalPurchaseAmount();
                     break;
                 case 12:
-                    purchaseManager.displayCustomerPurchaseRating();
+                    //purchaseManager.displayCustomerPurchaseRating();
+                    purchaseManager.displayYearlyCustomerPurchases();
+                    purchaseManager.displayMonthlyCustomerPurchases();
+                    purchaseManager.displayDailyCustomerPurchases();
                     break;
                 case 13:
+                    //productManager.displayProductSalesRating();
+                    purchaseManager.displayYearlyProductSales();
+                    purchaseManager.displayMonthlyProductSales();
+                    purchaseManager.displayDailyProductSales();
                     break;
                 case 14:
                     timeManager.TimeTo();

@@ -1,18 +1,27 @@
 package managers;
 
 import entity.Product;
+import entity.Purchase;
 import facade.ProductFacade;
+import facade.PurchaseFacade;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import tools.InputFromKeyboard;
 
 public class ProductManager {
     private final Scanner scanner;
     private final ProductFacade productFacade;
+    private final PurchaseFacade purchaseFacade;
 
     public ProductManager(Scanner scanner) {
         this.scanner = scanner;
         this.productFacade = new ProductFacade();
+        this.purchaseFacade = new PurchaseFacade();
     }
     
     public void addProduct(){
@@ -162,4 +171,7 @@ public class ProductManager {
         product.setProductQuantity(product.getProductQuantity() + InputFromKeyboard.inputNumberFromRange(1, 100));  
         productFacade.edit(product);
     }
+
 }
+
+ 
