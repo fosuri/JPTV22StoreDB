@@ -21,11 +21,10 @@ public class Purchase implements Serializable {
     private Customer customer;
     @OneToOne
     private Product product;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateOfPurchase;
     
     
-
     public Purchase() {
     }
 
@@ -130,6 +129,7 @@ public class Purchase implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
 
 
 }

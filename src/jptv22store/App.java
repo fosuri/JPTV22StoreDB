@@ -6,6 +6,7 @@ import managers.ProductManager;
 import managers.CustomerManager;
 import java.util.Scanner;
 import managers.PurchaseManager;
+import managers.TimeManager;
 import tools.InputFromKeyboard;
 
 public class App {
@@ -13,6 +14,7 @@ public class App {
     private final ProductManager productManager;
     private final CustomerManager customerManager;
     private final PurchaseManager purchaseManager;
+    private final TimeManager timeManager;
     
     
     public App() {
@@ -20,6 +22,7 @@ public class App {
         this.productManager = new ProductManager(scanner);
         this.customerManager = new CustomerManager(scanner);
         this.purchaseManager = new PurchaseManager(scanner);
+        this.timeManager = new TimeManager();
         
     }
     
@@ -48,9 +51,10 @@ public class App {
             System.out.println("11. Total sales");
             System.out.println("12. Customer rating by number of purchases");
             System.out.println("13. Product sales rating");
+            System.out.println("14. Time to sales");
 
             System.out.print("Enter task number: ");
-            int task = InputFromKeyboard.inputNumberFromRange(0, 13);
+            int task = InputFromKeyboard.inputNumberFromRange(0, 14);
             
             switch (task) {
                 case 0:
@@ -67,6 +71,7 @@ public class App {
                     customerManager.replenishmentOfBalance();
                     break;
                 case 4:
+                    customerManager.changeCustomerDetails();
                     break;
                 case 5:
                     productManager.addProduct();
@@ -75,8 +80,10 @@ public class App {
                     productManager.displayAllProducts();
                     break;
                 case 7:
+                    productManager.changeProductDetails();
                     break;
                 case 8:
+                    productManager.ProductReplenishment();
                     break;
                 case 9:
                     purchaseManager.purchaseProduct();
@@ -85,6 +92,15 @@ public class App {
                     purchaseManager.displayAllPurchases();
                     break;
                 case 11:
+                    purchaseManager.displayTotalPurchaseAmount();
+                    break;
+                case 12:
+                    purchaseManager.displayCustomerPurchaseRating();
+                    break;
+                case 13:
+                    break;
+                case 14:
+                    timeManager.TimeTo();
                     break;
                 default:
                     break;

@@ -85,4 +85,81 @@ public class ProductManager {
         productFacade.edit(product);
     }
     
+    public void changeProductDetails(){
+        System.out.println();
+        System.out.println("-------------------------");
+        System.out.println("| Change product details |");
+        System.out.println("-------------------------");   
+        this.displayAllProducts();
+        System.out.print("Enter the customer number: ");
+        int productNumber = InputFromKeyboard.inputNumberFromRange(1, null);   
+        Product product = productFacade.find((long)productNumber);
+        boolean repeat = true;
+        do {
+            System.out.println(product.getProductName());
+            System.out.println(product.getProductType());
+            System.out.println(product.getProductQuantity());
+            System.out.println(product.getProductPrice()+" Eur");
+            System.out.println("0. Exit");
+            System.out.println("1. Name");
+            System.out.println("2. Type");
+            System.out.println("3. Price");
+            System.out.println("4. Quantity");
+            System.out.print("Enter task number: ");
+            int task = InputFromKeyboard.inputNumberFromRange(0, 14);
+            
+            switch (task) {
+                case 0:
+                    repeat = false;
+                    break;
+                case 1:
+                    System.out.print("New name: ");
+                    product.setProductName(scanner.nextLine());
+                    break;
+                case 2:
+                    System.out.print("New type: ");
+                    product.setProductType(scanner.nextLine());
+                    break;
+                case 3:
+                    System.out.print("New price: ");
+                    double pPrice =-1;
+                    while(pPrice<=0){
+                        try {
+                            pPrice = Double.parseDouble(scanner.nextLine());
+                            if(pPrice<=0 || Math.abs(pPrice*100 - Math.round(pPrice*100))>0.001){
+                                System.out.println("Invalid price. Amount should be greater than 0 and have 2 decimal places.");
+                                System.out.print("Enter a valid price: ");
+                                pPrice = -1;
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid input. Please enter a valid number.");
+                            System.out.print("Enter a valid price: ");                
+                        }
+                    }
+                    product.setProductPrice(pPrice);
+                    break;
+                case 4:
+                    System.out.print("New quantity: ");
+                    product.setProductQuantity(InputFromKeyboard.inputNumberFromRange(1, 100));
+                    break;
+                default:
+                    break;
+            }
+        } while (repeat);
+        productFacade.edit(product);
+        
+    }
+    public void ProductReplenishment(){
+        System.out.println();
+        System.out.println("-------------------------");
+        System.out.println("| Product Replenishment |");
+        System.out.println("-------------------------");   
+        this.displayAllProducts();
+        System.out.print("Enter the customer number: ");
+        int productNumber = InputFromKeyboard.inputNumberFromRange(1, null);   
+        Product product = productFacade.find((long)productNumber);
+        System.out.print("New quantity: ");
+        product.setProductQuantity(product.getProductQuantity() + InputFromKeyboard.inputNumberFromRange(1, 100));  
+        productFacade.edit(product);
+    }
 }

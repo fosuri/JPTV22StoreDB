@@ -102,4 +102,23 @@ public class CustomerManager {
     public void update(Customer customer){
         customerFacade.edit(customer);
     }
+    
+    public void changeCustomerDetails(){
+        System.out.println();
+        System.out.println("--------------------------");
+        System.out.println("| Change customer details |");
+        System.out.println("---------------------------");   
+        this.displayAllCustomers();
+        System.out.print("Enter the customer number: ");
+        int customerNumber = InputFromKeyboard.inputNumberFromRange(1, null);   
+        Customer customer = customerFacade.find((long)customerNumber);
+        System.out.println(customer.getCustomerFirstname()+" "+customer.getCustomerLastname());
+        System.out.print("New firstname: ");
+        customer.setCustomerFirstname(scanner.nextLine());
+        System.out.print("New lastname: ");
+        customer.setCustomerLastname(scanner.nextLine());
+        customerFacade.edit(customer);
+    }
+    
+    
 }
