@@ -167,7 +167,7 @@ public class ProductManager {
         System.out.print("Enter the customer number: ");
         int productNumber = InputFromKeyboard.inputNumberFromRange(1, null);   
         Product product = productFacade.find((long)productNumber);
-        System.out.print("New quantity: ");
+        System.out.print("Quantity to add: ");
         product.setProductQuantity(product.getProductQuantity() + InputFromKeyboard.inputNumberFromRange(1, 100));  
         productFacade.edit(product);
     }

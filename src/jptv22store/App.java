@@ -43,7 +43,7 @@ public class App {
             System.out.println("---------------------------");
             System.out.println("5. Add a new product");
             System.out.println("6. Display all products");
-            System.out.println("7. Change product price");
+            System.out.println("7. Change product details");
             System.out.println("8. Product replenishment");
             System.out.println("---------------------------");
             System.out.println("9. Purchase");
@@ -55,6 +55,11 @@ public class App {
 
             System.out.print("Enter task number: ");
             int task = InputFromKeyboard.inputNumberFromRange(0, 14);
+            System.out.println("Selected task is "+task+". Are you sure? Y/N");
+            String continueRun = InputFromKeyboard.inputSymbolYesOrNo();
+            if(continueRun.equalsIgnoreCase("n")){
+                continue;
+            }
             
             switch (task) {
                 case 0:
@@ -96,15 +101,22 @@ public class App {
                     break;
                 case 12:
                     //purchaseManager.displayCustomerPurchaseRating();
-                    purchaseManager.displayYearlyCustomerPurchases();
-                    purchaseManager.displayMonthlyCustomerPurchases();
-                    purchaseManager.displayDailyCustomerPurchases();
+//                    purchaseManager.displayYearlyCustomerPurchases();
+//                    purchaseManager.displayMonthlyCustomerPurchases();
+//                    purchaseManager.displayDailyCustomerPurchases();
+//                    
+                    purchaseManager.displayYearlyCustomerPurchasesSorted();
+                    purchaseManager.displayMonthlyCustomerPurchasesSorted();
+                    purchaseManager.displayDailyCustomerPurchasesSorted();
                     break;
                 case 13:
                     //productManager.displayProductSalesRating();
-                    purchaseManager.displayYearlyProductSales();
-                    purchaseManager.displayMonthlyProductSales();
-                    purchaseManager.displayDailyProductSales();
+//                    purchaseManager.displayYearlyProductSales();
+//                    purchaseManager.displayMonthlyProductSales();
+//                    purchaseManager.displayDailyProductSales();
+                    purchaseManager.displayYearlyProductSalesSorted();
+                    purchaseManager.displayMonthlyProductSalesSorted();
+                    purchaseManager.displayDailyProductSalesSorted();
                     break;
                 case 14:
                     timeManager.TimeTo();

@@ -187,53 +187,9 @@ public class PurchaseManager {
         } while (repeat);
     }
     
-  
     
     
     
-    public void displayYearlyProductSales() {
-        List<Product> products = productFacade.findAll();
-        LocalDate currentDate = LocalDate.now();
-        int currentYear = currentDate.getYear();
-
-        System.out.println("Yearly Product Sales: ");
-        for (Product product : products) {
-            List<Purchase> productPurchases = getYearlyPurchasesForProduct(product, currentYear);
-            int totalSales = calculateTotalSales(productPurchases);
-            System.out.println(product.getProductName() + ": " + totalSales);
-        }
-    }
-
-    
-    public void displayMonthlyProductSales() {
-        List<Product> products = productFacade.findAll();
-        LocalDate currentDate = LocalDate.now();
-        int currentYear = currentDate.getYear();
-        int currentMonth = currentDate.getMonthValue();
-
-        System.out.println("Monthly Product Sales: ");
-        for (Product product : products) {
-            List<Purchase> productPurchases = getMonthlyPurchasesForProduct(product, currentYear, currentMonth);
-            int totalSales = calculateTotalSales(productPurchases);
-            System.out.println(product.getProductName() + ": " + totalSales);
-        }
-    }
-
-    
-    public void displayDailyProductSales() {
-        List<Product> products = productFacade.findAll();
-        LocalDate currentDate = LocalDate.now();
-        int currentYear = currentDate.getYear();
-        int currentMonth = currentDate.getMonthValue();
-        int currentDay = currentDate.getDayOfMonth();
-
-        System.out.println("Daily Product Sales: ");
-        for (Product product : products) {
-            List<Purchase> productPurchases = getDailyPurchasesForProduct(product, currentYear, currentMonth, currentDay);
-            int totalSales = calculateTotalSales(productPurchases);
-            System.out.println(product.getProductName() + ": " + totalSales);
-        }
-    }
 
     
     private List<Purchase> getYearlyPurchasesForProduct(Product product, int year) {
@@ -271,7 +227,7 @@ public class PurchaseManager {
                 .collect(Collectors.toList());
     }
 
-    // Метод для подсчета общего количества продаж по списку покупок продукта
+    
     private int calculateTotalSales(List<Purchase> productPurchases) {
         return productPurchases.stream()
                 .mapToInt(Purchase::getPurchasedQuantity)
@@ -279,53 +235,89 @@ public class PurchaseManager {
     }
     
     
-    
-    // Метод для вычисления рейтинга покупателей по количеству покупок за год
-    public void displayYearlyCustomerPurchases() {
-        List<Customer> customers = customerFacade.findAll();
+    public void displayYearlyProductSalesSorted() {
+        List<Product> products = productFacade.findAll();
         LocalDate currentDate = LocalDate.now();
         int currentYear = currentDate.getYear();
 
-        System.out.println("Yearly Customer Purchases: ");
-        for (Customer customer : customers) {
-            List<Purchase> customerPurchases = getYearlyPurchasesForCustomer(customer, currentYear);
-            int totalPurchases = calculateTotalPurchases(customerPurchases);
-            System.out.println(customer.getCustomerFirstname() + " " + customer.getCustomerLastname() + ": " + totalPurchases);
-        }
-    }
+        System.out.println("Yearly Product Sales (Sorted): ");
 
-    // Метод для вычисления рейтинга покупателей по количеству покупок за месяц
-    public void displayMonthlyCustomerPurchases() {
-        List<Customer> customers = customerFacade.findAll();
+        
+        Map<String, Integer> productSalesMap = products.stream()
+            .collect(Collectors.toMap(
+                Product::getProductName,
+                product -> calculateTotalSales(getYearlyPurchasesForProduct(product, currentYear))
+            ));
+
+        
+        List<Map.Entry<String, Integer>> sortedProductSales = productSalesMap.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .collect(Collectors.toList());
+
+        
+        sortedProductSales.forEach(entry ->
+            System.out.println(entry.getKey() + ": " + entry.getValue())
+        );
+    }
+    
+    public void displayMonthlyProductSalesSorted() {
+        List<Product> products = productFacade.findAll();
         LocalDate currentDate = LocalDate.now();
         int currentYear = currentDate.getYear();
         int currentMonth = currentDate.getMonthValue();
 
-        System.out.println("Monthly Customer Purchases: ");
-        for (Customer customer : customers) {
-            List<Purchase> customerPurchases = getMonthlyPurchasesForCustomer(customer, currentYear, currentMonth);
-            int totalPurchases = calculateTotalPurchases(customerPurchases);
-            System.out.println(customer.getCustomerFirstname() + " " + customer.getCustomerLastname() + ": " + totalPurchases);
-        }
+        System.out.println("Monthly Product Sales (Sorted): ");
+
+        
+        Map<String, Integer> productMonthlySalesMap = products.stream()
+            .collect(Collectors.toMap(
+                Product::getProductName,
+                product -> calculateTotalSales(getMonthlyPurchasesForProduct(product, currentYear, currentMonth))
+            ));
+
+        
+        List<Map.Entry<String, Integer>> sortedProductMonthlySales = productMonthlySalesMap.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .collect(Collectors.toList());
+
+        
+        sortedProductMonthlySales.forEach(entry ->
+            System.out.println(entry.getKey() + ": " + entry.getValue())
+        );
     }
 
-    // Метод для вычисления рейтинга покупателей по количеству покупок за день
-    public void displayDailyCustomerPurchases() {
-        List<Customer> customers = customerFacade.findAll();
+    public void displayDailyProductSalesSorted() {
+        List<Product> products = productFacade.findAll();
         LocalDate currentDate = LocalDate.now();
         int currentYear = currentDate.getYear();
         int currentMonth = currentDate.getMonthValue();
         int currentDay = currentDate.getDayOfMonth();
 
-        System.out.println("Daily Customer Purchases: ");
-        for (Customer customer : customers) {
-            List<Purchase> customerPurchases = getDailyPurchasesForCustomer(customer, currentYear, currentMonth, currentDay);
-            int totalPurchases = calculateTotalPurchases(customerPurchases);
-            System.out.println(customer.getCustomerFirstname() + " " + customer.getCustomerLastname() + ": " + totalPurchases);
-        }
-    }
+        System.out.println("Daily Product Sales (Sorted): ");
 
-    // Метод для получения покупок конкретного покупателя за год
+        
+        Map<String, Integer> productDailySalesMap = products.stream()
+            .collect(Collectors.toMap(
+                Product::getProductName,
+                product -> calculateTotalSales(getDailyPurchasesForProduct(product, currentYear, currentMonth, currentDay))
+            ));
+
+        
+        List<Map.Entry<String, Integer>> sortedProductDailySales = productDailySalesMap.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .collect(Collectors.toList());
+
+        
+        sortedProductDailySales.forEach(entry ->
+            System.out.println(entry.getKey() + ": " + entry.getValue())
+        );
+    }
+    
+    
+
+   
+
+    
     private List<Purchase> getYearlyPurchasesForCustomer(Customer customer, int year) {
         List<Purchase> allCustomerPurchases = purchaseFacade.findAll();
         return allCustomerPurchases.stream()
@@ -337,7 +329,7 @@ public class PurchaseManager {
                 .collect(Collectors.toList());
     }
 
-    // Метод для получения покупок конкретного покупателя за месяц
+    
     private List<Purchase> getMonthlyPurchasesForCustomer(Customer customer, int year, int month) {
         List<Purchase> allCustomerPurchases = purchaseFacade.findAll();
         return allCustomerPurchases.stream()
@@ -349,7 +341,7 @@ public class PurchaseManager {
                 .collect(Collectors.toList());
     }
 
-    // Метод для получения покупок конкретного покупателя за день
+    
     private List<Purchase> getDailyPurchasesForCustomer(Customer customer, int year, int month, int day) {
         List<Purchase> allCustomerPurchases = purchaseFacade.findAll();
         return allCustomerPurchases.stream()
@@ -361,9 +353,92 @@ public class PurchaseManager {
                 .collect(Collectors.toList());
     }
 
-    // Метод для подсчета общего количества покупок для списка покупок покупателя
+    
     private int calculateTotalPurchases(List<Purchase> customerPurchases) {
         return customerPurchases.size();
-    }    
+    }
+    
+    
+    public void displayYearlyCustomerPurchasesSorted() {
+        List<Customer> customers = customerFacade.findAll();
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+
+        System.out.println("Yearly Customer Purchases (Sorted): ");
+
+        
+        Map<Customer, Integer> customerYearlyPurchasesMap = customers.stream()
+            .collect(Collectors.toMap(
+                customer -> customer,
+                customer -> getYearlyPurchasesForCustomer(customer, currentYear).size()
+            ));
+
+        
+        List<Customer> sortedCustomersByYearlyPurchases = customerYearlyPurchasesMap.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+
+        
+        sortedCustomersByYearlyPurchases.forEach(customer ->
+            System.out.println(customer.getCustomerFirstname() + " " + customer.getCustomerLastname() + ": " + customerYearlyPurchasesMap.get(customer))
+        );
+    }
+   
+    public void displayMonthlyCustomerPurchasesSorted() {
+        List<Customer> customers = customerFacade.findAll();
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentMonth = currentDate.getMonthValue();
+
+        System.out.println("Monthly Customer Purchases (Sorted): ");
+
+        
+        Map<Customer, Integer> customerMonthlyPurchasesMap = customers.stream()
+            .collect(Collectors.toMap(
+                customer -> customer,
+                customer -> getMonthlyPurchasesForCustomer(customer, currentYear, currentMonth).size()
+            ));
+
+      
+        List<Customer> sortedCustomersByMonthlyPurchases = customerMonthlyPurchasesMap.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+
+        
+        sortedCustomersByMonthlyPurchases.forEach(customer ->
+            System.out.println(customer.getCustomerFirstname() + " " + customer.getCustomerLastname() + ": " + customerMonthlyPurchasesMap.get(customer))
+        );
+    }
+
+    public void displayDailyCustomerPurchasesSorted() {
+        List<Customer> customers = customerFacade.findAll();
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentMonth = currentDate.getMonthValue();
+        int currentDay = currentDate.getDayOfMonth();
+
+        System.out.println("Daily Customer Purchases (Sorted): ");
+
+        
+        Map<Customer, Integer> customerDailyPurchasesMap = customers.stream()
+            .collect(Collectors.toMap(
+                customer -> customer,
+                customer -> getDailyPurchasesForCustomer(customer, currentYear, currentMonth, currentDay).size()
+            ));
+
+        
+        List<Customer> sortedCustomersByDailyPurchases = customerDailyPurchasesMap.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+
+        
+        sortedCustomersByDailyPurchases.forEach(customer ->
+            System.out.println(customer.getCustomerFirstname() + " " + customer.getCustomerLastname() + ": " + customerDailyPurchasesMap.get(customer))
+        );
+    }
+
     
 }
